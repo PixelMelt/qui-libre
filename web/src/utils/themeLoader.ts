@@ -46,7 +46,6 @@ export function loadThemes(): Theme[] {
       id: generateThemeId(parsedTheme.metadata.name) || filename,
       name: parsedTheme.metadata.name,
       description: parsedTheme.metadata.description,
-      isPremium: parsedTheme.metadata.isPremium,
       cssVars: parsedTheme.cssVars,
     };
 
@@ -73,7 +72,6 @@ export function loadThemes(): Theme[] {
       id: generateThemeId(parsedTheme.metadata.name) || filename,
       name: parsedTheme.metadata.name,
       description: parsedTheme.metadata.description,
-      isPremium: parsedTheme.metadata.isPremium ?? true, // Default to premium for premium directory
       cssVars: parsedTheme.cssVars,
     };
 
@@ -94,7 +92,7 @@ export function loadThemes(): Theme[] {
 
   // Debug log in development
   if (import.meta.env.DEV) {
-    console.log("Loaded themes:", themes.map(t => ({ id: t.id, name: t.name, isPremium: t.isPremium })));
+    console.log("Loaded themes:", themes.map(t => ({ id: t.id, name: t.name })));
   }
 
   return themes;
