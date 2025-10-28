@@ -16,9 +16,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/domain"
-	"github.com/autobrr/qui/internal/models"
-	internalqbittorrent "github.com/autobrr/qui/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	internalqbittorrent "github.com/PixelMelt/qui-libre/internal/qbittorrent"
 )
 
 type InstancesHandler struct {

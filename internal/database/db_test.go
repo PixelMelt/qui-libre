@@ -216,21 +216,6 @@ var expectedSchema = map[string][]columnSpec{
 		{Name: "basic_password_encrypted", Type: "TEXT"},
 		{Name: "tls_skip_verify", Type: "BOOLEAN"},
 	},
-	"licenses": {
-		{Name: "id", Type: "INTEGER", PrimaryKey: true},
-		{Name: "license_key", Type: "TEXT"},
-		{Name: "product_name", Type: "TEXT"},
-		{Name: "status", Type: "TEXT"},
-		{Name: "activated_at", Type: "DATETIME"},
-		{Name: "expires_at", Type: "DATETIME"},
-		{Name: "last_validated", Type: "DATETIME"},
-		{Name: "polar_customer_id", Type: "TEXT"},
-		{Name: "polar_product_id", Type: "TEXT"},
-		{Name: "polar_activation_id", Type: "TEXT"},
-		{Name: "username", Type: "TEXT"},
-		{Name: "created_at", Type: "DATETIME"},
-		{Name: "updated_at", Type: "DATETIME"},
-	},
 	"client_api_keys": {
 		{Name: "id", Type: "INTEGER", PrimaryKey: true},
 		{Name: "key_hash", Type: "TEXT"},
@@ -255,7 +240,6 @@ var expectedSchema = map[string][]columnSpec{
 
 var expectedIndexes = map[string][]string{
 	"api_keys":        {"idx_api_keys_hash"},
-	"licenses":        {"idx_licenses_status", "idx_licenses_theme", "idx_licenses_key"},
 	"client_api_keys": {"idx_client_api_keys_key_hash", "idx_client_api_keys_instance_id"},
 	"instance_errors": {"idx_instance_errors_lookup"},
 	"sessions":        {"sessions_expiry_idx"},

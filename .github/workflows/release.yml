@@ -27,7 +27,6 @@ env:
   REGISTRY: ghcr.io
   REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
   NODE_VERSION: "22.18.0"
-  POLAR_ORG_ID: ${{ secrets.POLAR_ORG_ID }}
 
 permissions:
   contents: write
@@ -71,7 +70,7 @@ jobs:
           if [ -n "${{ secrets.THEMES_REPO_TOKEN }}" ]; then
             rm -rf .themes-temp
             git clone --depth=1 --filter=blob:none --sparse \
-              https://${{ secrets.THEMES_REPO_TOKEN }}@github.com/autobrr/qui-premium-themes.git .themes-temp
+              https://${{ secrets.THEMES_REPO_TOKEN }}@github.com/PixelMelt/qui-libre-premium-themes.git .themes-temp
             cd .themes-temp && git sparse-checkout set --cone themes && cd ..
             mkdir -p web/src/themes/premium
             cp .themes-temp/themes/*.css web/src/themes/premium/
@@ -264,7 +263,6 @@ jobs:
             REVISION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
             BUILDER=${{ github.actor }}@github-actions
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            POLAR_ORG_ID=${{ secrets.POLAR_ORG_ID }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false

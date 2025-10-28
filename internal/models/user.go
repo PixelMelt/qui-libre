@@ -8,7 +8,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/autobrr/qui/internal/dbinterface"
+	"github.com/PixelMelt/qui-libre/internal/dbinterface"
 )
 
 var ErrUserNotFound = errors.New("user not found")

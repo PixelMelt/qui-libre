@@ -18,18 +18,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 
-	"github.com/autobrr/qui/internal/auth"
-	"github.com/autobrr/qui/internal/backups"
-	"github.com/autobrr/qui/internal/config"
-	"github.com/autobrr/qui/internal/database"
-	"github.com/autobrr/qui/internal/domain"
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/internal/qbittorrent"
-	"github.com/autobrr/qui/internal/services/license"
-	"github.com/autobrr/qui/internal/services/trackericons"
-	"github.com/autobrr/qui/internal/update"
-	"github.com/autobrr/qui/internal/web"
-	"github.com/autobrr/qui/internal/web/swagger"
+	"github.com/PixelMelt/qui-libre/internal/auth"
+	"github.com/PixelMelt/qui-libre/internal/backups"
+	"github.com/PixelMelt/qui-libre/internal/config"
+	"github.com/PixelMelt/qui-libre/internal/database"
+	"github.com/PixelMelt/qui-libre/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/services/trackericons"
+	"github.com/PixelMelt/qui-libre/internal/update"
+	"github.com/PixelMelt/qui-libre/internal/web"
+	"github.com/PixelMelt/qui-libre/internal/web/swagger"
 )
 
 type routeKey struct {
@@ -107,7 +106,6 @@ func newTestDependencies(t *testing.T) *Dependencies {
 		ClientPool:         &qbittorrent.ClientPool{},
 		SyncManager:        &qbittorrent.SyncManager{},
 		WebHandler:         &web.Handler{},
-		LicenseService:     &license.Service{},
 		UpdateService:      &update.Service{},
 		TrackerIconService: trackerIconService,
 		BackupService:      &backups.Service{},
@@ -204,7 +202,6 @@ func normalizeRoutePath(path string) (string, bool) {
 
 	path = strings.ReplaceAll(path, "{instanceID}", "{instanceId}")
 	path = strings.ReplaceAll(path, "{runID}", "{runId}")
-	path = strings.ReplaceAll(path, "{licenseKey}", "{licenseKey}")
 
 	return path, true
 }

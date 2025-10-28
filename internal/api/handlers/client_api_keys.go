@@ -11,8 +11,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/pkg/httphelpers"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/pkg/httphelpers"
 )
 
 type ClientAPIKeysHandler struct {

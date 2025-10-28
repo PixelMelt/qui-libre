@@ -22,7 +22,7 @@ import (
 	"github.com/spf13/viper"
 	"gopkg.in/natefinch/lumberjack.v2"
 
-	"github.com/autobrr/qui/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/domain"
 )
 
 var envPrefix = "QUI__"

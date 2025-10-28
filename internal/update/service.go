@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/autobrr/qui/pkg/version"
+	"github.com/PixelMelt/qui-libre/pkg/version"
 
 	"github.com/rs/zerolog"
 )

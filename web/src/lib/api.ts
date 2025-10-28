@@ -693,54 +693,6 @@ class ApiClient {
     return this.request(`/client-api-keys/${id}`, { method: "DELETE" })
   }
 
-  // License endpoints
-  async activateLicense(licenseKey: string): Promise<{
-    valid: boolean
-    expiresAt?: string
-    message?: string
-    error?: string
-  }> {
-    return this.request("/license/activate", {
-      method: "POST",
-      body: JSON.stringify({ licenseKey }),
-    })
-  }
-
-  async validateLicense(licenseKey: string): Promise<{
-    valid: boolean
-    productName?: string
-    expiresAt?: string
-    message?: string
-    error?: string
-  }> {
-    return this.request("/license/validate", {
-      method: "POST",
-      body: JSON.stringify({ licenseKey }),
-    })
-  }
-
-  async getLicensedThemes(): Promise<{ hasPremiumAccess: boolean }> {
-    return this.request("/license/licensed")
-  }
-
-  async getAllLicenses(): Promise<Array<{
-    licenseKey: string
-    productName: string
-    status: string
-    createdAt: string
-  }>> {
-    return this.request("/license/licenses")
-  }
-
-
-  async deleteLicense(licenseKey: string): Promise<{ message: string }> {
-    return this.request(`/license/${licenseKey}`, { method: "DELETE" })
-  }
-
-  async refreshLicenses(): Promise<{ message: string }> {
-    return this.request("/license/refresh", { method: "POST" })
-  }
-
   // Preferences endpoints
   async getInstancePreferences(instanceId: number): Promise<AppPreferences> {
     return this.request<AppPreferences>(`/instances/${instanceId}/preferences`)

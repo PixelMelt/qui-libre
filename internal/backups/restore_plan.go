@@ -12,7 +12,7 @@ import (
 
 	qbt "github.com/autobrr/go-qbittorrent"
 
-	"github.com/autobrr/qui/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/models"
 )
 
 // RestoreMode controls how a snapshot should be applied to a live qBittorrent instance.

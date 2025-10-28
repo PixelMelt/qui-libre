@@ -1,4 +1,4 @@
-module github.com/autobrr/qui
+module github.com/PixelMelt/qui-libre
 
 go 1.25
 

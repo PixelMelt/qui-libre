@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 	_ "modernc.org/sqlite"
 
-	"github.com/autobrr/qui/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/models"
 )
 
 func setupTestBackupDB(t *testing.T) *sql.DB {

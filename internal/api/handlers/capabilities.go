@@ -4,7 +4,7 @@
 package handlers
 
 import (
-	internalqbittorrent "github.com/autobrr/qui/internal/qbittorrent"
+	internalqbittorrent "github.com/PixelMelt/qui-libre/internal/qbittorrent"
 )
 
 // InstanceCapabilitiesResponse describes supported features for an instance.

@@ -22,8 +22,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/qbittorrent"
-	"github.com/autobrr/qui/pkg/torrentname"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/pkg/torrentname"
 )
 
 type TorrentsHandler struct {

@@ -18,9 +18,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/autobrr/qui/internal/backups"
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/pkg/torrentname"
+	"github.com/PixelMelt/qui-libre/internal/backups"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/pkg/torrentname"
 )
 
 type BackupsHandler struct {

@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/autobrr/qui/internal/auth"
-	"github.com/autobrr/qui/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/auth"
+	"github.com/PixelMelt/qui-libre/internal/domain"
 	"github.com/rs/zerolog/log"
 )
 

@@ -26,7 +26,7 @@ export function NotFound() {
           <p>
             feel free to report this to our{" "}
             <a
-              href="https://github.com/autobrr/qui/issues/new?template=bug_report.md"
+              href="https://github.com/PixelMelt/qui-libre/issues/new?template=bug_report.md"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 underline font-medium underline-offset-2 transition-colors"

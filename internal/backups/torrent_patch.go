@@ -13,7 +13,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/zeebo/bencode"
 
-	"github.com/autobrr/qui/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
 )
 
 var trackerPatchWebAPIVersions = map[string]struct{}{

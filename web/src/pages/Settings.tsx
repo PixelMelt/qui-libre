@@ -8,7 +8,6 @@ import { InstanceForm } from "@/components/instances/InstanceForm"
 import { PasswordIssuesBanner } from "@/components/instances/PasswordIssuesBanner"
 import { ClientApiKeysManager } from "@/components/settings/ClientApiKeysManager"
 import { DateTimePreferencesForm } from "@/components/settings/DateTimePreferencesForm"
-import { LicenseManager } from "@/components/themes/LicenseManager.tsx"
 import { ThemeSelector } from "@/components/themes/ThemeSelector"
 import {
   AlertDialog,
@@ -585,7 +584,7 @@ export function Settings() {
             <SelectItem value="themes">
               <div className="flex items-center">
                 <Palette className="w-4 h-4 mr-2" />
-                Premium Themes
+                Themes
               </div>
             </SelectItem>
             <SelectItem value="security">
@@ -645,7 +644,7 @@ export function Settings() {
               }`}
             >
               <Palette className="w-4 h-4 mr-2" />
-              Premium Themes
+              Themes
             </button>
             <button
               onClick={() => handleTabChange("security")}
@@ -742,7 +741,6 @@ export function Settings() {
 
           {activeTab === "themes" && (
             <div className="space-y-4">
-              <LicenseManager />
               <ThemeSelector />
             </div>
           )}

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/autobrr/qui/internal/dbinterface"
+	"github.com/PixelMelt/qui-libre/internal/dbinterface"
 )
 
 // Error types for categorization

@@ -22,9 +22,9 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/internal/qbittorrent"
-	"github.com/autobrr/qui/pkg/httphelpers"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/pkg/httphelpers"
 )
 
 // Handler manages reverse proxy requests to qBittorrent instances

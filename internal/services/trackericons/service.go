@@ -29,7 +29,7 @@ import (
 	"golang.org/x/sync/singleflight"
 	"golang.org/x/text/transform"
 
-	"github.com/autobrr/qui/pkg/httphelpers"
+	"github.com/PixelMelt/qui-libre/pkg/httphelpers"
 )
 
 const (

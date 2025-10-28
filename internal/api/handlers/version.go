@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/autobrr/qui/internal/update"
+	"github.com/PixelMelt/qui-libre/internal/update"
 )
 
 type VersionHandler struct {

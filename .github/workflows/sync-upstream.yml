@@ -1,0 +1,83 @@
+name: Sync Upstream
+
+on:
+  repository_dispatch:
+    types: [upstream-release]
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/autobrr/qui.git || true
+          git fetch upstream --tags
+
+      - name: Get latest upstream release tag
+        id: upstream_release
+        run: |
+          LATEST_TAG=$(git tag -l --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "Latest upstream release: $LATEST_TAG"
+
+      - name: Check if already synced
+        id: check_synced
+        run: |
+          if git merge-base --is-ancestor ${{ steps.upstream_release.outputs.tag }} HEAD; then
+            echo "synced=true" >> $GITHUB_OUTPUT
+            echo "Already synced with ${{ steps.upstream_release.outputs.tag }}"
+          else
+            echo "synced=false" >> $GITHUB_OUTPUT
+            echo "Need to sync ${{ steps.upstream_release.outputs.tag }}"
+          fi
+
+      - name: Attempt merge
+        if: steps.check_synced.outputs.synced == 'false'
+        id: merge
+        continue-on-error: true
+        run: |
+          git merge ${{ steps.upstream_release.outputs.tag }} --no-edit -m "Sync with upstream release ${{ steps.upstream_release.outputs.tag }}"
+
+      - name: Push if successful
+        if: steps.check_synced.outputs.synced == 'false' && steps.merge.outcome == 'success'
+        run: |
+          git push origin main
+
+      - name: Create issue on merge conflict
+        if: steps.check_synced.outputs.synced == 'false' && steps.merge.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'upstream-sync-conflict'
+            });
+
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Upstream sync failed: merge conflict detected',
+                body: `Failed to automatically merge release ${{ steps.upstream_release.outputs.tag }} from upstream repository (autobrr/qui).\n\nPlease manually resolve the conflicts:\n\`\`\`bash\ngit fetch upstream --tags\ngit merge ${{ steps.upstream_release.outputs.tag }}\n# Resolve conflicts\ngit push origin main\n\`\`\`\n\nWorkflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`,
+                labels: ['upstream-sync-conflict']
+              });
+            }
+
+      - name: Abort merge on failure
+        if: steps.check_synced.outputs.synced == 'false' && steps.merge.outcome == 'failure'
+        run: |
+          git merge --abort || true

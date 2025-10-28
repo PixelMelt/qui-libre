@@ -19,7 +19,7 @@ export const Footer = () => {
         asChild
       >
         <a
-          href="https://github.com/autobrr/qui"
+          href="https://github.com/PixelMelt/qui-libre"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View on GitHub"

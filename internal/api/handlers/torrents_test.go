@@ -8,7 +8,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/autobrr/qui/pkg/torrentname"
+	"github.com/PixelMelt/qui-libre/pkg/torrentname"
 )
 
 func TestSanitizeTorrentExportFilename_UTF8Boundary(t *testing.T) {

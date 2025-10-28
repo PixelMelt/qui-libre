@@ -9,7 +9,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/autobrr/qui/internal/dbinterface"
+	"github.com/PixelMelt/qui-libre/internal/dbinterface"
 	"github.com/stretchr/testify/require"
 	_ "modernc.org/sqlite"
 )

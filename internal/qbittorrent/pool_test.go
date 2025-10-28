@@ -12,8 +12,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/autobrr/qui/internal/database"
-	"github.com/autobrr/qui/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/database"
+	"github.com/PixelMelt/qui-libre/internal/models"
 )
 
 // setupTestPool creates a new ClientPool for testing

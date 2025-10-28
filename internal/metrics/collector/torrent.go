@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
 )
 
 type TorrentCollector struct {

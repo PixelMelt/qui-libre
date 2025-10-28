@@ -14,10 +14,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/autobrr/qui/internal/auth"
-	"github.com/autobrr/qui/internal/config"
-	"github.com/autobrr/qui/internal/database"
-	"github.com/autobrr/qui/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/auth"
+	"github.com/PixelMelt/qui-libre/internal/config"
+	"github.com/PixelMelt/qui-libre/internal/database"
+	"github.com/PixelMelt/qui-libre/internal/models"
 )
 
 func TestCreateUserCommandCreatesUser(t *testing.T) {

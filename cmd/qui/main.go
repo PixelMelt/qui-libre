@@ -21,27 +21,21 @@ import (
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
 
-	"github.com/autobrr/qui/internal/api"
-	"github.com/autobrr/qui/internal/auth"
-	"github.com/autobrr/qui/internal/backups"
-	"github.com/autobrr/qui/internal/buildinfo"
-	"github.com/autobrr/qui/internal/config"
-	"github.com/autobrr/qui/internal/database"
-	"github.com/autobrr/qui/internal/domain"
-	"github.com/autobrr/qui/internal/metrics"
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/internal/polar"
-	"github.com/autobrr/qui/internal/qbittorrent"
-	"github.com/autobrr/qui/internal/services/license"
-	"github.com/autobrr/qui/internal/services/trackericons"
-	"github.com/autobrr/qui/internal/update"
-	"github.com/autobrr/qui/pkg/sqlite3store"
+	"github.com/PixelMelt/qui-libre/internal/api"
+	"github.com/PixelMelt/qui-libre/internal/auth"
+	"github.com/PixelMelt/qui-libre/internal/backups"
+	"github.com/PixelMelt/qui-libre/internal/buildinfo"
+	"github.com/PixelMelt/qui-libre/internal/config"
+	"github.com/PixelMelt/qui-libre/internal/database"
+	"github.com/PixelMelt/qui-libre/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/metrics"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/services/trackericons"
+	"github.com/PixelMelt/qui-libre/internal/update"
+	"github.com/PixelMelt/qui-libre/pkg/sqlite3store"
 )
 
-var (
-	// PolarOrgID Publisher credentials - set during build via ldflags
-	PolarOrgID = "" // Set via: -X main.PolarOrgID=your-org-id
-)
 
 func main() {
 	config.InitDefaultLogger(buildinfo.Version)
@@ -87,7 +81,7 @@ func RunServeCommand() *cobra.Command {
 	command.Flags().BoolVar(&pprofFlag, "pprof", false, "enable pprof server on :6060")
 
 	command.Run = func(cmd *cobra.Command, args []string) {
-		app := NewApplication(configDir, dataDir, logPath, pprofFlag, PolarOrgID)
+		app := NewApplication(configDir, dataDir, logPath, pprofFlag)
 		app.runServer()
 	}
 
@@ -395,18 +389,14 @@ type Application struct {
 	dataDir   string
 	logPath   string
 	pprofFlag bool
-
-	// Publisher credentials - set during build via ldflags
-	polarOrgID string // Set via: -X main.PolarOrgID=your-org-id
 }
 
-func NewApplication(configDir, dataDir, logPath string, pprofFlag bool, polarOrgID string) *Application {
+func NewApplication(configDir, dataDir, logPath string, pprofFlag bool) *Application {
 	return &Application{
-		configDir:  configDir,
-		dataDir:    dataDir,
-		logPath:    logPath,
-		pprofFlag:  pprofFlag,
-		polarOrgID: polarOrgID,
+		configDir: configDir,
+		dataDir:   dataDir,
+		logPath:   logPath,
+		pprofFlag: pprofFlag,
 	}
 }
 
@@ -442,14 +432,6 @@ func (app *Application) runServer() {
 	// Make tracker icon service globally accessible for background fetching
 	trackericons.SetGlobal(trackerIconService)
 
-	// init polar client
-	polarClient := polar.NewClient(polar.WithOrganizationID(app.polarOrgID), polar.WithEnvironment(os.Getenv("QUI__POLAR_ENVIRONMENT")), polar.WithUserAgent(buildinfo.UserAgent))
-	if app.polarOrgID != "" {
-		log.Trace().Msg("Initializing Polar client for license validation")
-	} else {
-		log.Warn().Msg("No Polar organization ID configured - premium themes will be disabled")
-	}
-
 	// Initialize database
 	db, err := database.New(cfg.GetDatabasePath())
 	if err != nil {
@@ -458,7 +440,6 @@ func (app *Application) runServer() {
 	defer db.Close()
 
 	// Initialize stores
-	licenseRepo := database.NewLicenseRepo(db)
 	instanceStore, err := models.NewInstanceStore(db, cfg.GetEncryptionKey())
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize instance store")
@@ -469,12 +450,6 @@ func (app *Application) runServer() {
 
 	// Initialize services
 	authService := auth.NewService(db)
-	licenseService := license.NewLicenseService(licenseRepo, polarClient, cfg.GetConfigDir())
-
-	go func() {
-		checker := license.NewLicenseChecker(licenseService)
-		checker.StartPeriodicChecks(context.Background())
-	}()
 
 	// Initialize qBittorrent client pool
 	clientPool, err := qbittorrent.NewClientPool(instanceStore, errorStore)
@@ -549,7 +524,6 @@ func (app *Application) runServer() {
 		ClientAPIKeyStore:  clientAPIKeyStore,
 		ClientPool:         clientPool,
 		SyncManager:        syncManager,
-		LicenseService:     licenseService,
 		UpdateService:      updateService,
 		TrackerIconService: trackerIconService,
 		BackupService:      backupService,

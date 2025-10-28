@@ -46,9 +46,8 @@ import {
   setThemeMode,
   type ThemeMode
 } from "@/utils/theme"
-import { themes, isThemePremium } from "@/config/themes"
+import { themes } from "@/config/themes"
 import { toast } from "sonner"
-import { useHasPremiumAccess } from "@/hooks/useLicense"
 
 
 // Helper to extract primary color from theme
@@ -87,7 +86,6 @@ export function MobileFooterNav() {
   const { logout } = useAuth()
   const { isSelectionMode } = useTorrentSelection()
   const { currentMode, currentTheme } = useThemeChange()
-  const { hasPremiumAccess } = useHasPremiumAccess()
   const [showThemeDialog, setShowThemeDialog] = useState(false)
 
   const { data: instances } = useQuery({
@@ -108,16 +106,10 @@ export function MobileFooterNav() {
   }, [])
 
   const handleThemeSelect = useCallback(async (themeId: string) => {
-    const isPremium = isThemePremium(themeId)
-    if (isPremium && !hasPremiumAccess) {
-      toast.error("This is a premium theme. Please purchase a license to use it.")
-      return
-    }
-
     await setTheme(themeId)
     const theme = themes.find(t => t.id === themeId)
     toast.success(`Switched to ${theme?.name || themeId} theme`)
-  }, [hasPremiumAccess])
+  }, [])
 
   if (isSelectionMode) {
     return null
@@ -270,7 +262,7 @@ export function MobileFooterNav() {
 
             <DropdownMenuItem asChild>
               <a
-                href="https://github.com/autobrr/qui"
+                href="https://github.com/PixelMelt/qui-libre"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
@@ -352,53 +344,30 @@ export function MobileFooterNav() {
             <div>
               <div className="text-sm font-medium mb-2">Theme</div>
               <div className="space-y-1">
-                {themes
-                  .sort((a, b) => {
-                    const aIsPremium = isThemePremium(a.id)
-                    const bIsPremium = isThemePremium(b.id)
-                    if (aIsPremium === bIsPremium) return 0
-                    return aIsPremium ? 1 : -1
-                  })
-                  .map((theme) => {
-                    const isPremium = isThemePremium(theme.id)
-                    const isLocked = isPremium && !hasPremiumAccess
-
-                    return (
-                      <button
-                        key={theme.id}
-                        onClick={() => {
-                          if (!isLocked) {
-                            handleThemeSelect(theme.id)
-                            setShowThemeDialog(false)
-                          }
-                        }}
-                        disabled={isLocked}
-                        className={cn(
-                          "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
-                          currentTheme.id === theme.id ? "bg-accent" : "hover:bg-accent/50",
-                          isLocked && "opacity-60 cursor-not-allowed"
-                        )}
-                      >
-                        <div
-                          className="h-4 w-4 rounded-full ring-1 ring-black/10 dark:ring-white/10 flex-shrink-0"
-                          style={{
-                            backgroundColor: getThemePrimaryColor(theme),
-                            backgroundImage: "none",
-                            background: getThemePrimaryColor(theme) + " !important",
-                          }}
-                        />
-                        <div className="flex items-center justify-between gap-2 flex-1 min-w-0">
-                          <span className="truncate">{theme.name}</span>
-                          {isPremium && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground font-medium flex-shrink-0">
-                              Premium
-                            </span>
-                          )}
-                        </div>
-                        {currentTheme.id === theme.id && <Check className="h-4 w-4 flex-shrink-0" />}
-                      </button>
-                    )
-                  })}
+                {themes.map((theme) => (
+                  <button
+                    key={theme.id}
+                    onClick={() => {
+                      handleThemeSelect(theme.id)
+                      setShowThemeDialog(false)
+                    }}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+                      currentTheme.id === theme.id ? "bg-accent" : "hover:bg-accent/50"
+                    )}
+                  >
+                    <div
+                      className="h-4 w-4 rounded-full ring-1 ring-black/10 dark:ring-white/10 flex-shrink-0"
+                      style={{
+                        backgroundColor: getThemePrimaryColor(theme),
+                        backgroundImage: "none",
+                        background: getThemePrimaryColor(theme) + " !important",
+                      }}
+                    />
+                    <span className="flex-1 text-left truncate">{theme.name}</span>
+                    {currentTheme.id === theme.id && <Check className="h-4 w-4 flex-shrink-0" />}
+                  </button>
+                ))}
               </div>
             </div>
           </div>

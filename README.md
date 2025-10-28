@@ -1,6 +1,7 @@
-# qui
+# qui-libre
 
 A fast, modern web interface for qBittorrent. Supports managing multiple qBittorrent instances from a single, lightweight application.
+
 
 <div align="center">
   <img src=".github/assets/qui.png" alt="qui" width="100%" />
@@ -38,7 +39,7 @@ This will extract both qui to /usr/local/bin. Note: If the command fails, prefix
 
 ### Manual Download
 
-Download the latest release for your platform from the [releases page](https://github.com/autobrr/qui/releases).
+Download the latest release for your platform from the [releases page](https://github.com/PixelMelt/qui-libre/releases).
 
 ### Run
 

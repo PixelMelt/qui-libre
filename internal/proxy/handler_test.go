@@ -19,7 +19,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/require"
 
-	"github.com/autobrr/qui/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/models"
 )
 
 func TestHandlerRewriteRequest_PathJoining(t *testing.T) {

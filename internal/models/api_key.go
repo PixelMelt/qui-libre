@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/autobrr/qui/internal/dbinterface"
+	"github.com/PixelMelt/qui-libre/internal/dbinterface"
 )
 
 var ErrAPIKeyNotFound = errors.New("api key not found")

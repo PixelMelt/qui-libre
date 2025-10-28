@@ -28,7 +28,7 @@ Make sure you have the following dependencies installed before setting up your d
 
 ## How to contribute
 
-- **Fork and Clone:** [Fork the qui repository](https://github.com/autobrr/qui/fork) and clone it to start working on your changes.
+- **Fork and Clone:** [Fork the qui repository](https://github.com/PixelMelt/qui-libre/fork) and clone it to start working on your changes.
 - **Branching:** Create a new branch for your changes. Use a descriptive name for easy understanding.
   - Checkout a new branch for your fix or feature `git checkout -b fix/torrent-actions-issue`
 - **Coding:** Ensure your code is well-commented for clarity. With go use `go fmt`

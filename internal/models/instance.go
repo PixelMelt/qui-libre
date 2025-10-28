@@ -18,8 +18,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/autobrr/qui/internal/dbinterface"
-	"github.com/autobrr/qui/internal/domain"
+	"github.com/PixelMelt/qui-libre/internal/dbinterface"
+	"github.com/PixelMelt/qui-libre/internal/domain"
 )
 
 var ErrInstanceNotFound = errors.New("instance not found")

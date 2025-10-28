@@ -21,8 +21,8 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/internal/services/trackericons"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/services/trackericons"
 )
 
 // Global URL cache for domain extraction - shared across all sync managers

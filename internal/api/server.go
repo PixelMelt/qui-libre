@@ -19,20 +19,19 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/autobrr/qui/internal/api/handlers"
-	"github.com/autobrr/qui/internal/api/middleware"
-	"github.com/autobrr/qui/internal/auth"
-	"github.com/autobrr/qui/internal/backups"
-	"github.com/autobrr/qui/internal/config"
-	"github.com/autobrr/qui/internal/models"
-	"github.com/autobrr/qui/internal/proxy"
-	"github.com/autobrr/qui/internal/qbittorrent"
-	"github.com/autobrr/qui/internal/services/license"
-	"github.com/autobrr/qui/internal/services/trackericons"
-	"github.com/autobrr/qui/internal/update"
-	"github.com/autobrr/qui/internal/web"
-	"github.com/autobrr/qui/internal/web/swagger"
-	webfs "github.com/autobrr/qui/web"
+	"github.com/PixelMelt/qui-libre/internal/api/handlers"
+	"github.com/PixelMelt/qui-libre/internal/api/middleware"
+	"github.com/PixelMelt/qui-libre/internal/auth"
+	"github.com/PixelMelt/qui-libre/internal/backups"
+	"github.com/PixelMelt/qui-libre/internal/config"
+	"github.com/PixelMelt/qui-libre/internal/models"
+	"github.com/PixelMelt/qui-libre/internal/proxy"
+	"github.com/PixelMelt/qui-libre/internal/qbittorrent"
+	"github.com/PixelMelt/qui-libre/internal/services/trackericons"
+	"github.com/PixelMelt/qui-libre/internal/update"
+	"github.com/PixelMelt/qui-libre/internal/web"
+	"github.com/PixelMelt/qui-libre/internal/web/swagger"
+	webfs "github.com/PixelMelt/qui-libre/web"
 )
 
 type Server struct {
@@ -47,7 +46,6 @@ type Server struct {
 	clientAPIKeyStore  *models.ClientAPIKeyStore
 	clientPool         *qbittorrent.ClientPool
 	syncManager        *qbittorrent.SyncManager
-	licenseService     *license.Service
 	updateService      *update.Service
 	trackerIconService *trackericons.Service
 	backupService      *backups.Service
@@ -63,7 +61,6 @@ type Dependencies struct {
 	ClientPool         *qbittorrent.ClientPool
 	SyncManager        *qbittorrent.SyncManager
 	WebHandler         *web.Handler
-	LicenseService     *license.Service
 	UpdateService      *update.Service
 	TrackerIconService *trackericons.Service
 	BackupService      *backups.Service
@@ -86,7 +83,6 @@ func NewServer(deps *Dependencies) *Server {
 		clientAPIKeyStore:  deps.ClientAPIKeyStore,
 		clientPool:         deps.ClientPool,
 		syncManager:        deps.SyncManager,
-		licenseService:     deps.LicenseService,
 		updateService:      deps.UpdateService,
 		trackerIconService: deps.TrackerIconService,
 		backupService:      deps.BackupService,
@@ -206,7 +202,6 @@ func (s *Server) Handler() (*chi.Mux, error) {
 	backupsHandler := handlers.NewBackupsHandler(s.backupService)
 	trackerIconHandler := handlers.NewTrackerIconHandler(s.trackerIconService)
 	proxyHandler := proxy.NewHandler(s.clientPool, s.clientAPIKeyStore, s.instanceStore, s.syncManager, s.config.Config.BaseURL)
-	licenseHandler := handlers.NewLicenseHandler(s.licenseService)
 
 	// API routes
 	apiRouter := chi.NewRouter()
@@ -243,8 +238,6 @@ func (s *Server) Handler() (*chi.Mux, error) {
 			r.Post("/auth/logout", authHandler.Logout)
 			r.Get("/auth/me", authHandler.GetCurrentUser)
 			r.Put("/auth/change-password", authHandler.ChangePassword)
-
-			r.Route("/license", licenseHandler.Routes)
 
 			// API key management
 			r.Route("/api-keys", func(r chi.Router) {

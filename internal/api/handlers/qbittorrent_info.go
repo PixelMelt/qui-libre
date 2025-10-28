@@ -12,7 +12,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 
-	internalqbittorrent "github.com/autobrr/qui/internal/qbittorrent"
+	internalqbittorrent "github.com/PixelMelt/qui-libre/internal/qbittorrent"
 )
 
 type QBittorrentInfoHandler struct {
