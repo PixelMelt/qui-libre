@@ -7,14 +7,7 @@ import { parseThemeCSS, generateThemeId } from "./themeParser";
 import type { Theme } from "@/config/themes";
 
 // Import all theme CSS files from the themes directory
-const freeThemes = import.meta.glob("/src/themes/*.css", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-});
-
-// Import premium theme CSS files (may not exist in development)
-const premiumThemes = import.meta.glob("/src/themes/premium/*.css", {
+const allThemes = import.meta.glob("/src/themes/**/*.css", {
   query: "?raw",
   import: "default",
   eager: true,
@@ -26,8 +19,8 @@ const premiumThemes = import.meta.glob("/src/themes/premium/*.css", {
 export function loadThemes(): Theme[] {
   const themes: Theme[] = [];
 
-  // Process free theme files
-  for (const [path, cssContent] of Object.entries(freeThemes)) {
+  // Process all theme files
+  for (const [path, cssContent] of Object.entries(allThemes)) {
     if (typeof cssContent !== "string") {
       console.warn(`Invalid theme file: ${path}`);
       continue;
@@ -36,32 +29,6 @@ export function loadThemes(): Theme[] {
     const parsedTheme = parseThemeCSS(cssContent);
     if (!parsedTheme) {
       console.warn(`Failed to parse theme: ${path}`);
-      continue;
-    }
-
-    // Extract filename without extension for fallback ID
-    const filename = path.split("/").pop()?.replace(".css", "") || "unknown";
-
-    const theme: Theme = {
-      id: generateThemeId(parsedTheme.metadata.name) || filename,
-      name: parsedTheme.metadata.name,
-      description: parsedTheme.metadata.description,
-      cssVars: parsedTheme.cssVars,
-    };
-
-    themes.push(theme);
-  }
-
-  // Process premium theme files (if available)
-  for (const [path, cssContent] of Object.entries(premiumThemes)) {
-    if (typeof cssContent !== "string") {
-      console.warn(`Invalid premium theme file: ${path}`);
-      continue;
-    }
-
-    const parsedTheme = parseThemeCSS(cssContent);
-    if (!parsedTheme) {
-      console.warn(`Failed to parse premium theme: ${path}`);
       continue;
     }
 

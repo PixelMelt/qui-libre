@@ -2,14 +2,15 @@ version: '3.8'
 
 services:
   qui:
-    image: ghcr.io/autobrr/qui:latest
-    container_name: qui
+    image: qui-libre:latest
+    container_name: qui-libre
+    build: .
     restart: unless-stopped
     ports:
       - "7476:7476"
     volumes:
       - ./qui:/config
-    environment:
+    # environment:
       # Server configuration
       # Default: 0.0.0.0 in containers
       #QUI__HOST: "0.0.0.0"

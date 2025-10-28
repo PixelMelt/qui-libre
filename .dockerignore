@@ -1,0 +1,54 @@
+# Node modules (will be installed in container)
+web/node_modules
+web/dist
+node_modules
+
+# Go build artifacts
+qui
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Vendor
+vendor/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# CI/CD
+.github/
+
+# Documentation
+*.md
+docs/
+
+# Config files (user data)
+qui/
+config/
+*.toml
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
